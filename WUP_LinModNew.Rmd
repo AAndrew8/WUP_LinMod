@@ -87,7 +87,7 @@ correlation= 0.64 shows moderate positive correlation between SIMS score and GRI
 ```{r}
 summary.lm(model.2)
 ```  
-
+adjusted R squared is 0.4053 meaning we reject to know this because it is below 0.5 and there is a Sims and grip, and the pvalue is 0.00000000000000022
 #### predict model.2 at target point
 
 ```{r}
@@ -105,19 +105,31 @@ at ARM=88, GRIP=94, the predicted SIMS score is -0.536. 95% confidence interval 
 model.3 = lm(SIMS~ARM+GRIP, data=data)
 summary(model.3)
 ```
-
+The adjusted r squared is 0.535 so it is basically 0.54,it doesnt reject the null so it is false the pvalue is also 0.00000000000000022
 
 
 ### Numerical results (cor)
 ```{r}
 cor(data)
 ```
-`
+The numerical results so that Arm has a higher rating than grip arm has a rating of 0.22 and grip has a rating of 0.18.
   
 ### Inferential  (Build 2-dimentional model.3)
+```{r}
+model.3 <- lm(SIMS~ARM+GRIP,data=data)
+summary.lm(model.3)
+```
+
+The adjusted r squared is 0.535 so it is basically 0.54,it doesnt reject the null so it is false the pvalue is also 0.00000000000000022
 
 #### predict model.3 at target point
-
+```{r}
+targtPoint = data.frame(GRIP=94, ARM=88)
+predictInt = predict(model.3, targtPoint, interval =
+ 'prediction')
+print(predictInt)
+```
+at ARM=88, GRIP=94, the predicted SIMS score is 0.149. 95% confidence interval for that score is SIMS between -2.13 and 2.43
 
 ## Comparing nested models ANOVA Test
 
@@ -126,18 +138,19 @@ cor(data)
 anova_result <- anova(model.1, model.3)
 print(anova_result)
 ```
-
-
+They arent much different from each other besides the RSS Which model one has a higher RSS then model three.
+. The difference in between the two models is 29.45.
 ### Model.2 vs Model.3
 ```{r}
 anova_result <- anova(model.2, model.3)
 print(anova_result)
 ```
 
-
+ The difference between model two and model three is 54.63 in ths rss.
 ## Informally compare Model.1 with model.2
 ```{r}
 anova_result <- anova(model.1, model.2)
 print(anova_result)
 ```
 
+model one is much lower than model two With a difference of 25.9 rss between the models.
